@@ -172,6 +172,25 @@ void main() async {
 
       // Verify that TechnicianPage is displayed after login
       expect(await find.byType(TechnicianPage), findsOneWidget);
+
+
+
+      // Tap to open the drawer
+      final openDrawerIcon = find.byIcon(Icons.menu); 
+      await tester.ensureVisible(openDrawerIcon);
+      // Assuming the menu icon opens the drawer
+      await tester.tap(openDrawerIcon);
+
+      await tester.pumpAndSettle();
+
+      // Tap the logout option
+      final logoutOptionFinder = find.text('Logout');
+      await tester.ensureVisible(logoutOptionFinder);
+      await tester.tap(logoutOptionFinder);
+      await tester.pumpAndSettle();
+
+      // Verify that HomeScreen is displayed again after logout
+      expect(await find.byType(HomeScreen), findsOneWidget);
     });
   }, skip: "skip for now");
 }
