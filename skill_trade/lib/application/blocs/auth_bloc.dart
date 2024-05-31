@@ -14,7 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpTechnician>(_onSignUpTechnician);
     on<UnlogEvent>(_onUnlogEvent);
     on<DeleteAccount>(_onDeleteAccount);
-    add(AutomaticLogIn());
+    add(const AutomaticLogIn());
   }
 
   Future<void> _onAutomaticLogIn(AutomaticLogIn event, Emitter<AuthState> emit) async {
@@ -46,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onSignUpTechnician(SignUpTechnician event, Emitter<AuthState> emit) async {
     try {
       await authRepository.signUpTechnician(event.email, event.password, event.phone, event.fullName, event.skills, event.experience, event.educationLevel, event.availableLocation, event.additionalBio);
-      emit(AuthSuccess('Successfully applied'));
+      emit(const AuthSuccess('Successfully applied'));
     } catch (error) {
       emit(AuthError(error.toString()));
     }
