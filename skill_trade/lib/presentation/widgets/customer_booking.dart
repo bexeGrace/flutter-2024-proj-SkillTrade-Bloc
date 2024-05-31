@@ -43,7 +43,9 @@ class _CustomerBookingState extends State<CustomerBooking> {
 
   @override
   void dispose() {
-    _controllers.values.forEach((controller) => controller.dispose());
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -108,7 +110,7 @@ class _CustomerBookingState extends State<CustomerBooking> {
           const SizedBox(height: 7),
           InfoLabel(label: "Email", data: widget.technician.email),
           const SizedBox(height: 7),
-          InfoLabel(label: "Speciality", data: widget.technician.skills),
+          InfoLabel(label: "Specialty", data: widget.technician.skills),
           const SizedBox(height: 7),
           InfoLabel(label: "Phone", data: widget.technician.phone),
           const SizedBox(height: 20),
@@ -158,21 +160,21 @@ class _CustomerBookingState extends State<CustomerBooking> {
             children: [
               ElevatedButton(
                 onPressed: editBooking,
-                child:
-                    const Text("Edit", style: TextStyle(color: Colors.white)),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                       Theme.of(context).colorScheme.primary),
                 ),
+                child:
+                    const Text("Edit", style: TextStyle(color: Colors.white)),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: deleteBooking,
-                child: const Text("Delete Booking",
-                    style: TextStyle(color: Colors.white)),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.redAccent),
                 ),
+                child: const Text("Delete Booking",
+                    style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
