@@ -32,9 +32,12 @@ class _CustomerBookingState extends State<CustomerBooking> {
     super.initState();
     _selectedDate = widget.booking.serviceDate;
     _controllers = {
-      "serviceNeeded": TextEditingController(text: widget.booking.serviceNeeded),
-      "problemDescription": TextEditingController(text: widget.booking.problemDescription),
-      "serviceLocation": TextEditingController(text: widget.booking.serviceLocation),
+      "serviceNeeded":
+          TextEditingController(text: widget.booking.serviceNeeded),
+      "problemDescription":
+          TextEditingController(text: widget.booking.problemDescription),
+      "serviceLocation":
+          TextEditingController(text: widget.booking.serviceLocation),
     };
   }
 
@@ -84,8 +87,8 @@ class _CustomerBookingState extends State<CustomerBooking> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(20),
@@ -93,23 +96,25 @@ class _CustomerBookingState extends State<CustomerBooking> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
+          const Text(
             "Booked With",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Text(
             widget.technician.name,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 7),
+          const SizedBox(height: 7),
           InfoLabel(label: "Email", data: widget.technician.email),
-          SizedBox(height: 7),
+          const SizedBox(height: 7),
           InfoLabel(label: "Speciality", data: widget.technician.skills),
-          SizedBox(height: 7),
+          const SizedBox(height: 7),
           InfoLabel(label: "Phone", data: widget.technician.phone),
-          SizedBox(height: 20),
-          InfoLabel(label: "Booked Date", data: widget.booking.bookedDate.toString().substring(0, 10)),
+          const SizedBox(height: 20),
+          InfoLabel(
+              label: "Booked Date",
+              data: widget.booking.bookedDate.toString().substring(0, 10)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -124,7 +129,8 @@ class _CustomerBookingState extends State<CustomerBooking> {
                   ),
                   Text(
                     _selectedDate.toString().substring(0, 10),
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -134,24 +140,36 @@ class _CustomerBookingState extends State<CustomerBooking> {
               ),
             ],
           ),
-          EditableField(label: "Service Needed", data: widget.booking.serviceNeeded, controller: _controllers["serviceNeeded"]),
-          EditableField(label: "Problem Description", data: widget.booking.problemDescription, controller: _controllers["problemDescription"]),
-          EditableField(label: "Service Location", data: widget.booking.serviceLocation, controller: _controllers["serviceLocation"]),
+          EditableField(
+              label: "Service Needed",
+              data: widget.booking.serviceNeeded,
+              controller: _controllers["serviceNeeded"]),
+          EditableField(
+              label: "Problem Description",
+              data: widget.booking.problemDescription,
+              controller: _controllers["problemDescription"]),
+          EditableField(
+              label: "Service Location",
+              data: widget.booking.serviceLocation,
+              controller: _controllers["serviceLocation"]),
           InfoLabel(label: "Status", data: widget.booking.status),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Row(
             children: [
               ElevatedButton(
                 onPressed: editBooking,
-                child: Text("Edit", style: TextStyle(color: Colors.white)),
+                child:
+                    const Text("Edit", style: TextStyle(color: Colors.white)),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+                  backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.primary),
                 ),
               ),
               SizedBox(width: 20),
               ElevatedButton(
                 onPressed: deleteBooking,
-                child: Text("Delete Booking", style: TextStyle(color: Colors.white)),
+                child: const Text("Delete Booking",
+                    style: TextStyle(color: Colors.white)),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.redAccent),
                 ),
