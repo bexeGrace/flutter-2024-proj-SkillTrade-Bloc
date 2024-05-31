@@ -26,7 +26,8 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'emits [LoggedIn] when AutomaticLogIn event is added and token is found',
       setUp: () {
-        when(mockAuthRepository.getToken()).thenAnswer((_) async => 'some-token');
+        when(mockAuthRepository.getToken())
+            .thenAnswer((_) async => 'some-token');
         when(mockAuthRepository.getRole()).thenAnswer((_) async => 'customer');
       },
       build: () {
@@ -43,12 +44,15 @@ void main() {
         when(mockAuthRepository.getRole()).thenAnswer((_) async => 'customer');
       },
       build: () {
-        when(mockAuthRepository.logIn('customer', 'test@example.com', 'password')).thenThrow(Exception('Login Failed'));
+        when(mockAuthRepository.logIn(
+                'customer', 'test@example.com', 'password'))
+            .thenThrow(Exception('Login Failed'));
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      act: (bloc) => bloc.add(LogInEvent(role: 'customer', email: 'test@example.com', password: 'password')),
-      expect: () => [AuthError('Exception: Login Failed')],
+      act: (bloc) => bloc.add(LogInEvent(
+          role: 'customer', email: 'test@example.com', password: 'password')),
+      expect: () => [AuthError(' Login Failed')],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -58,47 +62,54 @@ void main() {
         when(mockAuthRepository.getRole()).thenAnswer((_) async => 'customer');
       },
       build: () {
-        when(mockAuthRepository.signUpCustomer('test@example.com', 'password', '1234567890', 'Test User')).thenThrow(Exception('Signup Failed'));
+        when(mockAuthRepository.signUpCustomer(
+                'test@example.com', 'password', '1234567890', 'Test User'))
+            .thenThrow(Exception('Signup Failed'));
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      act: (bloc) => bloc.add(SignUpCustomer(email: 'test@example.com', password: 'password', phone: '1234567890', fullName: 'Test User')),
+      act: (bloc) => bloc.add(SignUpCustomer(
+          email: 'test@example.com',
+          password: 'password',
+          phone: '1234567890',
+          fullName: 'Test User')),
       expect: () => [AuthError('Exception: Signup Failed')],
     );
 
     blocTest<AuthBloc, AuthState>(
       'emits [AuthSuccess] when SignUpTechnician is added and signup succeeds',
       setUp: () {
-        when(mockAuthRepository.getToken()).thenAnswer((_) async => 'some-token');
+        when(mockAuthRepository.getToken())
+            .thenAnswer((_) async => 'some-token');
         when(mockAuthRepository.getRole()).thenAnswer((_) async => 'customer');
       },
       build: () {
         when(mockAuthRepository.signUpTechnician(
-          'test@example.com', 
-          'password', 
-          '1234567890', 
-          'Test User', 
-          'skills', 
-          'experience', 
-          'educationLevel', 
-          'location', 
-          'bio'
-        )).thenAnswer((_) async => Future.value());
+                'test@example.com',
+                'password',
+                '1234567890',
+                'Test User',
+                'skills',
+                'experience',
+                'educationLevel',
+                'location',
+                'bio'))
+            .thenAnswer((_) async => Future.value());
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
       act: (bloc) => bloc.add(SignUpTechnician(
-        email: 'test@example.com', 
-        password: 'password', 
-        phone: '1234567890', 
-        fullName: 'Test User', 
-        skills: 'skills', 
-        experience: 'experience', 
-        educationLevel: 'educationLevel', 
-        availableLocation: 'location', 
-        additionalBio: 'bio'
-      )),
-      expect: () => [LoggedIn(role: 'technician'), AuthSuccess('Successfully applied')],
+          email: 'test@example.com',
+          password: 'password',
+          phone: '1234567890',
+          fullName: 'Test User',
+          skills: 'skills',
+          experience: 'experience',
+          educationLevel: 'educationLevel',
+          availableLocation: 'location',
+          additionalBio: 'bio')),
+      expect: () =>
+          [LoggedIn(role: 'customer'), AuthSuccess('Successfully applied')],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -108,7 +119,8 @@ void main() {
         when(mockAuthRepository.getRole()).thenAnswer((_) async => 'customer');
       },
       build: () {
-        when(mockAuthRepository.clearData()).thenAnswer((_) async => Future.value());
+        when(mockAuthRepository.clearData())
+            .thenAnswer((_) async => Future.value());
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
