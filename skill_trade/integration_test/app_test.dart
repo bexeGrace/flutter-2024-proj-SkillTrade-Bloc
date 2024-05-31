@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:skill_trade/infrastructure/storage/storage.dart';
 import 'package:skill_trade/main.dart'; 
-
 import 'package:skill_trade/infrastructure/data_sources/bookings_remote_data_source_impl.dart';
 import 'package:skill_trade/infrastructure/data_sources/customer_remote_data_source_impl.dart';
 import 'package:skill_trade/infrastructure/data_sources/remote_data_source.dart';
@@ -12,7 +11,6 @@ import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl
 import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
 import 'package:skill_trade/presentation/screens/customer.dart';
 import 'package:skill_trade/presentation/screens/home_page.dart';
-import 'package:skill_trade/presentation/screens/login_page.dart';
 import 'package:skill_trade/presentation/screens/signup_page.dart';
 import 'package:http/http.dart' as http;
 // class MockAuthBloc extends Mock implements AuthBloc {}
