@@ -8,10 +8,11 @@ void main() {
       // Arrange
       const title = 'Service Title';
       const description = 'Service Description';
-      const imageUrl = 'assets/technician.png'; // Make sure this image is available in your assets
+      const imageUrl =
+          'assets/technician.png'; // Make sure this image is available in your assets
 
       // Act
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: ServicesCard(
             title: title,
@@ -20,19 +21,21 @@ void main() {
           ),
         ),
       ));
-      
+
       // Assert
       expect(find.text(title), findsOneWidget);
     });
 
-    testWidgets('Displays the description correctly', (WidgetTester tester) async {
+    testWidgets('Displays the description correctly',
+        (WidgetTester tester) async {
       // Arrange
       const title = 'Service Title';
       const description = 'Service Description';
-      const imageUrl = 'assets/technician.png'; // Make sure this image is available in your assets
+      const imageUrl =
+          'assets/technician.png'; // Make sure this image is available in your assets
 
       // Act
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: ServicesCard(
             title: title,
@@ -41,7 +44,7 @@ void main() {
           ),
         ),
       ));
-      
+
       // Assert
       expect(find.text(description), findsOneWidget);
     });
@@ -50,10 +53,11 @@ void main() {
       // Arrange
       const title = 'Service Title';
       const description = 'Service Description';
-      const imageUrl = 'assets/technician.png'; // Make sure this image is available in your assets
+      const imageUrl =
+          'assets/technician.png'; // Make sure this image is available in your assets
 
       // Act
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: ServicesCard(
             title: title,
@@ -62,20 +66,27 @@ void main() {
           ),
         ),
       ));
-      
+
       // Assert
       expect(find.byType(Image), findsOneWidget);
-      expect(find.byWidgetPredicate((widget) => widget is Image && widget.image is AssetImage && (widget.image as AssetImage).assetName == imageUrl), findsOneWidget);
+      expect(
+          find.byWidgetPredicate((widget) =>
+              widget is Image &&
+              widget.image is AssetImage &&
+              (widget.image as AssetImage).assetName == imageUrl),
+          findsOneWidget);
     });
 
-    testWidgets('Card has correct margin and padding', (WidgetTester tester) async {
+    testWidgets('Card has correct margin and padding',
+        (WidgetTester tester) async {
       // Arrange
       const title = 'Service Title';
       const description = 'Service Description';
-      const imageUrl = 'assets/technician.png'; // Make sure this image is available in your assets
+      const imageUrl =
+          'assets/technician.png'; // Make sure this image is available in your assets
 
       // Act
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: Scaffold(
           body: ServicesCard(
             title: title,
@@ -87,15 +98,18 @@ void main() {
 
       // Assert
       final card = tester.widget<Card>(find.byType(Card));
-      expect(card.margin, EdgeInsets.only(left: 10, right: 10));
-      
+      expect(card.margin, const EdgeInsets.only(left: 10, right: 10));
+
       final paddingFinder = find.descendant(
         of: find.byType(Card),
         matching: find.byType(Padding),
       );
 
       final paddingWidgets = tester.widgetList<Padding>(paddingFinder).toList();
-      expect(paddingWidgets.any((padding) => padding.padding == EdgeInsets.all(8.0)), isTrue);
+      expect(
+          paddingWidgets
+              .any((padding) => padding.padding == const EdgeInsets.all(8.0)),
+          isTrue);
     });
   });
 }
