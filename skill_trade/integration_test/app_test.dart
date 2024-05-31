@@ -60,11 +60,8 @@ void main() async {
       final signupButtonFinderForm = find.text('signup');
       await tester.ensureVisible(signupButtonFinderForm);
       await tester.tap(signupButtonFinderForm);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(milliseconds:5000));
 
-      await tester.pumpAndSettle();
-
-      await tester.pumpAndSettle();
 
       // Verify navigation to CustomerPage
       expect(find.byType(CustomerPage), findsOneWidget);
