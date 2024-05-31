@@ -170,7 +170,6 @@ class _LoginPageState extends State<LoginPage> {
   }
   
   Future<void> login() async {
-    // BlocProvider.of<AuthBloc>(context).add(LogInEvent(role: _selectedRole, email: _emailController.text, password: _passwordController.text));
     final Completer<void> completer = Completer<void>();
     final subscription = BlocProvider.of<AuthBloc>(context).stream.listen((state) {
       if (state is LoggedIn || state is AuthError) {
@@ -185,7 +184,6 @@ class _LoginPageState extends State<LoginPage> {
     ));
 
     await completer.future;
-
     await subscription.cancel();
   }
 }
