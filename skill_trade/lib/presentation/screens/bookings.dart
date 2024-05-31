@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skill_trade/domain/models/review.dart';
 import 'package:skill_trade/domain/models/technician.dart';
@@ -127,7 +126,7 @@ class _MyBookingsState extends State<MyBookings> {
                               _selectedDate == null
                                   ? 'No date selected'
                                   : '${_selectedDate.toString().substring(0, 10)}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w500),
                             ),
                             // SizedBox(height: 20),
@@ -145,14 +144,14 @@ class _MyBookingsState extends State<MyBookings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Service \nNeeded:",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         SizedBox(
@@ -160,7 +159,7 @@ class _MyBookingsState extends State<MyBookings> {
                           height: 40,
                           child: TextField(
                             controller: serviceNeededController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -173,14 +172,14 @@ class _MyBookingsState extends State<MyBookings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Service \nLocation:",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         SizedBox(
@@ -188,7 +187,7 @@ class _MyBookingsState extends State<MyBookings> {
                           height: 40,
                           child: TextField(
                             controller: serviceLocationController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -201,22 +200,22 @@ class _MyBookingsState extends State<MyBookings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Problem \nDescription:",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         SizedBox(
                           width: 220,
                           height: 60,
-                          child: TextField(
+                          child:  TextField(
                             controller: problemDescriptionController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -224,17 +223,17 @@ class _MyBookingsState extends State<MyBookings> {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
+                      margin: const EdgeInsets.symmetric(vertical: 20),
                       width: 250,
                       child:  TextButton(
                           onPressed: submitBooking,
-                          child: Text(
-                            "Book",
-                            style: TextStyle(color: Colors.white),
-                          ),
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
+                          ),
+                          child: const Text(
+                            "Book",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -242,8 +241,8 @@ class _MyBookingsState extends State<MyBookings> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Divider(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Divider(
                   thickness: 1,
                   color: Colors.black,
                 ),
