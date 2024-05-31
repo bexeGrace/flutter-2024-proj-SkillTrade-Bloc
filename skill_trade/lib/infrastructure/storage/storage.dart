@@ -7,8 +7,8 @@ class SecureStorage {
 
   static final SecureStorage instance = SecureStorage._privateConstructor();
 
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
-  
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
   Future<void> write(String key, value) async {
     await _storage.write(key: key, value: value);
   }
@@ -25,7 +25,7 @@ class SecureStorage {
     await write("endpoint", "192.168.141.75");
   }
 
- Future<void> init() async {
+  Future<void> init() async {
     await write("endpoint", "192.168.141.75");
   }
 }

@@ -34,7 +34,7 @@ void main() {
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      expect: () => [LoggedIn(role: 'customer')],
+      expect: () => [const LoggedIn(role: 'customer')],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -50,9 +50,9 @@ void main() {
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      act: (bloc) => bloc.add(LogInEvent(
+      act: (bloc) => bloc.add(const LogInEvent(
           role: 'customer', email: 'test@example.com', password: 'password')),
-      expect: () => [AuthError(' Login Failed')],
+      expect: () => [const AuthError(' Login Failed')],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -68,12 +68,12 @@ void main() {
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      act: (bloc) => bloc.add(SignUpCustomer(
+      act: (bloc) => bloc.add(const SignUpCustomer(
           email: 'test@example.com',
           password: 'password',
           phone: '1234567890',
           fullName: 'Test User')),
-      expect: () => [AuthError('Exception: Signup Failed')],
+      expect: () => [const AuthError('Exception: Signup Failed')],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -98,7 +98,7 @@ void main() {
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      act: (bloc) => bloc.add(SignUpTechnician(
+      act: (bloc) => bloc.add(const SignUpTechnician(
           email: 'test@example.com',
           password: 'password',
           phone: '1234567890',
@@ -108,8 +108,10 @@ void main() {
           educationLevel: 'educationLevel',
           availableLocation: 'location',
           additionalBio: 'bio')),
-      expect: () =>
-          [LoggedIn(role: 'customer'), AuthSuccess('Successfully applied')],
+      expect: () => [
+        const LoggedIn(role: 'customer'),
+        const AuthSuccess('Successfully applied')
+      ],
     );
 
     blocTest<AuthBloc, AuthState>(
@@ -124,7 +126,7 @@ void main() {
         authBloc = AuthBloc(authRepository: mockAuthRepository);
         return authBloc;
       },
-      act: (bloc) => bloc.add(UnlogEvent()),
+      act: (bloc) => bloc.add(const UnlogEvent()),
       expect: () => [UnLogged()],
     );
   });
