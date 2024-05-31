@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:skill_trade/presentation/screens/customer_profile.dart';
-import 'package:skill_trade/presentation/screens/login_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skill_trade/presentation/widgets/my_button.dart';
 import 'package:skill_trade/presentation/widgets/my_textfield.dart';
-import 'package:skill_trade/presentation/widgets/technician_application.dart';
+import 'package:skill_trade/application/blocs/auth_bloc.dart';
+import 'package:skill_trade/presentation/events/auth_event.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -312,8 +313,7 @@ class _SignupPageState extends State<SignupPage> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           if (_selectedTags.length > 0) {
-                                            Navigator.pushNamed(
-                                                context,"/apply" );
+                                            signUpTechnician();
                                           } else {
                                             setState(() {
                                               _noSkillChosen = true;
@@ -335,13 +335,7 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
                                   MyButton(
                                       text: "signup",
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          Navigator.pushNamed(
-                                              context,"/customer");
-                                              
-                                        }
-                                      },
+                                      onPressed: signUpCustomer,
                                       width: double.infinity),
                                 ],
                               ],
@@ -359,8 +353,7 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
-                                      context,"/login");
+                                  context.go("/login");
                                 },
                                 child: Text("Login",
                                     style: TextStyle(
@@ -378,5 +371,17 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+  
+  void signUpCustomer() {
+    if (_formKey.currentState!.validate()) {      
+      BlocProvider.of<AuthBloc>(context).add(SignUpCustomer(email: _emailController.text, password: _passwordController.text, fullName: _fullNameController.text, phone: _phoneController.text));
+      GoRouter.of(context).go('/');
+    }
+  }
+  
+  void signUpTechnician() {
+    BlocProvider.of<AuthBloc>(context).add(SignUpTechnician(email: _emailController.text, password: _passwordController.text, fullName: _fullNameController.text, phone: _phoneController.text, additionalBio: _bioController.text, skills: _selectedTags.join(", "), experience: _experienceController.text, educationLevel: _educationController.text, availableLocation: _locationController.text, ));
+    context.go("/apply");
   }
 }

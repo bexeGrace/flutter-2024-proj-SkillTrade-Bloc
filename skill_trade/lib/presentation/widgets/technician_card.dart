@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:skill_trade/presentation/screens/bookings.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skill_trade/domain/models/technician.dart';
 
 class TechnicianCard extends StatelessWidget {
-  const TechnicianCard ({super.key});
+  final Technician technician;
+  const TechnicianCard ({super.key, required this.technician});
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +16,13 @@ class TechnicianCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assets/technician.png", width: 60, height: 60,),
-            const ListTile(
-              title: Text("Abenezer Seifu", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center,),
-              subtitle: Text("Speciality: Electrician Dish Technician", style: TextStyle(fontSize: 17), textAlign: TextAlign.center,),
+            ListTile(
+              title: Text(technician.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500), textAlign: TextAlign.center,),
+              subtitle: Text("Specialty: ${technician.skills}", style: const TextStyle(fontSize: 17), textAlign: TextAlign.center,),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/booktech");
+                context.push('/myBookings', extra: technician);
               }, 
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),

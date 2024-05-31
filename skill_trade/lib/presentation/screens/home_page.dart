@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:skill_trade/presentation/screens/login_page.dart';
-import 'package:skill_trade/presentation/screens/signup_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skill_trade/presentation/widgets/my_button.dart';
 import 'package:skill_trade/presentation/widgets/services_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+  static const Key homeScreenKey = Key('homeScreenKey');
   final List servicesCards = const [
     ServicesCard(
         imageUrl: 'assets/plumbing.jpg',
@@ -78,8 +76,7 @@ class HomeScreen extends StatelessWidget {
                         MyButton(
                             text: "login",
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context,"/login");
+                              context.push('/login');
                             }),
                         const SizedBox(
                           width: 15,
@@ -87,8 +84,7 @@ class HomeScreen extends StatelessWidget {
                         MyButton(
                             text: "signup",
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, "/signup");
+                              context.push('/signup');
                             }),
                       ],
                     ),

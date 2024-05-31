@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:skill_trade/presentation/screens/customer_profile.dart';
-import 'package:skill_trade/presentation/screens/signup_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skill_trade/presentation/states/auth_state.dart';
 import 'package:skill_trade/presentation/widgets/my_button.dart';
 import 'package:skill_trade/presentation/widgets/my_textfield.dart';
+import 'package:skill_trade/application/blocs/auth_bloc.dart';
+import 'package:skill_trade/presentation/events/auth_event.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,12 +20,12 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _selectedRole = "Customer";
+  String _selectedRole = "customer";
 
   @override
   void initState() {
     super.initState();
-    _selectedRole = 'Customer';
+    _selectedRole = 'customer';
   }
 
   @override
@@ -76,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                           // mainAxisAlignment: MainAxisAlignment.,
                           children: [
                             Radio<String>(
-                              value: 'Customer',
+                              value: 'customer',
                               groupValue: _selectedRole,
                               onChanged: (value) {
                                 setState(() {
@@ -87,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                             const Text('Customer'),
                             // SizedBox(width: 15,),
                             Radio<String>(
-                              value: 'Technician',
+                              value: 'technician',
                               groupValue: _selectedRole,
                               onChanged: (value) {
                                 setState(() {
@@ -98,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                             const Text('Technician'),
                             // SizedBox(width: 15,),
                             Radio<String>(
-                              value: 'Admin',
+                              value: 'admin',
                               groupValue: _selectedRole,
                               onChanged: (value) {
                                 setState(() {
@@ -114,18 +119,23 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         MyButton(
                             text: "login",
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                if (_selectedRole == "Customer"){ 
-                                  Navigator.pushNamed(
-                                    context, "/customer");
-                                } else if (_selectedRole == "Technician"){ 
-                                  Navigator.pushNamed(
-                                    context, "/technician");
-
-                                } else if(_selectedRole == "Admin"){ 
-                                  Navigator.pushNamed(
-                                    context, "/admin");
+                                await login();
+                                final authState = BlocProvider.of<AuthBloc>(context).state;
+                                if (authState is AuthError) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(authState.error),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text( 'Successfully logged in!'),
+                                    ),
+                                  );
+                                  GoRouter.of(context).go('/');
                                 }
                               }
                             },
@@ -143,8 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, "/signup");
+                                  context.go("/signup");
                                 },
                                 child: Text("Sign up",
                                     style: TextStyle(
@@ -162,5 +171,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+  
+  Future<void> login() async {
+    // BlocProvider.of<AuthBloc>(context).add(LogInEvent(role: _selectedRole, email: _emailController.text, password: _passwordController.text));
+    final Completer<void> completer = Completer<void>();
+    final subscription = BlocProvider.of<AuthBloc>(context).stream.listen((state) {
+      if (state is LoggedIn || state is AuthError) {
+        completer.complete();
+      }
+    });
+
+    BlocProvider.of<AuthBloc>(context).add(LogInEvent(
+      role: _selectedRole,
+      email: _emailController.text,
+      password: _passwordController.text,
+    ));
+
+    await completer.future;
+
+    await subscription.cancel();
   }
 }

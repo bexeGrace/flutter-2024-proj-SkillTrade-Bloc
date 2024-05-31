@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:skill_trade/admin.dart';
-import 'package:skill_trade/customer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skill_trade/domain/models/customer.dart';
+import 'package:skill_trade/domain/repositories/auth_repository.dart';
+import 'package:skill_trade/infrastructure/data_sources/bookings_remote_data_source_impl.dart';
+import 'package:skill_trade/infrastructure/data_sources/customer_remote_data_source_impl.dart';
+import 'package:skill_trade/infrastructure/data_sources/individual_technician_remote_data_source.dart';
+import 'package:skill_trade/infrastructure/data_sources/remote_data_source.dart';
+import 'package:skill_trade/infrastructure/data_sources/review_remote_data_source.dart';
+import 'package:skill_trade/infrastructure/repositories/auth_repository_impl.dart';
+import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl.dart';
+import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
+import 'package:skill_trade/infrastructure/repositories/individual_technician_repository.dart';
+import 'package:skill_trade/infrastructure/repositories/review_repository.dart';
+import 'package:skill_trade/presentation/screens/admin.dart';
+import 'package:skill_trade/presentation/screens/customer.dart';
+import 'package:skill_trade/domain/models/technician.dart';
 import 'package:skill_trade/presentation/screens/admin_customer.dart';
 import 'package:skill_trade/presentation/screens/admin_technician.dart';
 import 'package:skill_trade/presentation/screens/bookings.dart';
@@ -9,123 +24,179 @@ import 'package:skill_trade/presentation/screens/login_page.dart';
 import 'package:skill_trade/presentation/screens/signup_page.dart';
 import 'package:skill_trade/presentation/screens/technician_application_success.dart';
 import 'package:skill_trade/presentation/themes.dart';
-import 'package:skill_trade/technician.dart';
+import 'package:skill_trade/application/blocs/auth_bloc.dart';
+import 'package:skill_trade/presentation/states/auth_state.dart';
+import 'package:skill_trade/application/blocs/bookings_bloc.dart';
+import 'package:skill_trade/application/blocs/customer_bloc.dart';
+import 'package:skill_trade/application/blocs/individual_technician_bloc.dart';
+import 'package:skill_trade/application/blocs/review_bloc.dart';
+import 'package:skill_trade/infrastructure/storage/storage.dart';
+import 'package:skill_trade/presentation/screens/technician.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SecureStorage.instance.init();
+  final httpClient = http.Client();
+  final remoteDataSource = RemoteDataSource(httpClient);
+  final bookingRemoteDataSource = BookingsRemoteDataSourceImpl(httpClient);
+  final customerRemoteDataSource = CustomerRemoteDataSourceImpl(client: httpClient);
+
+  final authRepository = AuthRepositoryImpl(remoteDataSource, SecureStorage.instance);
+  final bookingsRepository = BookingsRepositoryImpl(bookingRemoteDataSource, SecureStorage.instance);
+  final customerRepository = CustomerRepositoryImpl(secureStorage: SecureStorage.instance, remoteDataSource: customerRemoteDataSource,);
+
+  runApp(MyApp(authRepository: authRepository, bookingsRepository: bookingsRepository, customerRepository: customerRepository,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthRepository authRepository;  
+  final BookingsRepositoryImpl bookingsRepository;
+  final CustomerRepositoryImpl customerRepository;
 
-  // This widget is the root of your application.
+  MyApp({required this.authRepository, required this.bookingsRepository, required this.customerRepository});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: lightMode,
-      debugShowCheckedModeBanner: false,
-      initialRoute: "/",
-      routes: { 
-        "/admintech": (context) => AdminTechnician(),
-        "/admincustomer": (context) => AdminCustomer(),
-        "/login" : (context) => LoginPage(),
-        "/signup" : (context) => SignupPage(),
-        "/customer":(context) => CustomerPage(),
-        "/technician":(context) => TechnicianPage(),
-        "/admin":(context) => AdminSite(),
-        "/apply":(context) => TechnicianApplicationSuccess(),
-        "/booktech": (context) => MyBookings(),
-      },
-      home: const HomeScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(authRepository: authRepository),
+        ),
+        BlocProvider<IndividualTechnicianBloc>(
+          create: (BuildContext context) => IndividualTechnicianBloc(individualTechnicianRepository: IndividualTechnicianRepository(remoteDataSource: IndividualTechnicianRemoteDataSource())),
+        ),
+        BlocProvider<BookingsBloc>(
+          create: (BuildContext context) => BookingsBloc(bookingsRepository: bookingsRepository),
+        ),
+        BlocProvider<ReviewsBloc>(
+          create: (BuildContext context) => ReviewsBloc(reviewRepository: ReviewRepository(remoteDataSource: ReviewRemoteDataSource())),
+        ),
+        BlocProvider<CustomerBloc>(
+          create: (BuildContext context) => CustomerBloc(customerRepository: customerRepository),
+        ),
+      ],
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: lightMode,
+        debugShowCheckedModeBanner: false,
+        routerConfig: _router,
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+final GoRouter _router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const GetFirstPage(),
+    ),
+    GoRoute(
+      path: '/admintech',
+      builder: (context, state) {
+          final technicianId = state.extra as int;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<ReviewsBloc>(
+                create: (context) => ReviewsBloc(reviewRepository: ReviewRepository(remoteDataSource: ReviewRemoteDataSource())),
+              ),
+            ],
+            child: AdminTechnician(technicianId: technicianId,),
+          );
+        },
+    ),
+    GoRoute(
+      path: '/admincustomer',
+      builder: (context, state) {
+          final customer = state.extra as Customer;
+          return AdminCustomer(customer: customer,);
+        },
+    ),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/signup',
+      builder: (context, state) => const SignupPage(),
+    ),
+    GoRoute(
+      path: '/customer',
+      builder: (context, state) => CustomerPage(),
+    ),
+    GoRoute(
+      path: '/technician',
+      builder: (context, state) => TechnicianPage(),
+    ),
+    GoRoute(
+      path: '/admin',
+      builder: (context, state) => AdminSite(),
+    ),
+    GoRoute(
+      path: '/apply',
+      builder: (context, state) => TechnicianApplicationSuccess(),
+    ),
+    GoRoute(
+        path: '/myBookings',
+        builder: (context, state) {
+          final technician = state.extra as Technician;
+          final bookingsRepository = (context as Element).findAncestorWidgetOfExactType<MyApp>()?.bookingsRepository;
+          final customerRepository = (context as Element).findAncestorWidgetOfExactType<MyApp>()?.customerRepository;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+          if (bookingsRepository != null && customerRepository != null) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<ReviewsBloc>(
+                  create: (context) => ReviewsBloc(reviewRepository: ReviewRepository(remoteDataSource: ReviewRemoteDataSource())),
+                ),
+                BlocProvider<BookingsBloc>(
+                  create: (context) => BookingsBloc(bookingsRepository: bookingsRepository),
+                ),
+                BlocProvider<CustomerBloc>(
+                  create: (context) => CustomerBloc(customerRepository: customerRepository),
+                ),
+              ],
+              child: MyBookings(technician: technician),
+            );
+          } else {
+          throw Exception('BookingsRepository or customerRepository not found');
+        }
+        },
+      ),
+  ],
+);
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+class GetFirstPageLogic {
+  Widget getLoggedInPage(String role) {
+    switch (role) {
+      case "customer":
+        return const CustomerPage();
+      case "technician":
+        return const TechnicianPage();
+      case "admin":
+        return const AdminSite();
+      default:
+        return const HomeScreen();
+    }
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class GetFirstPage extends StatelessWidget {
+  const GetFirstPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (BuildContext context, AuthState state) {
+        if (state is LoggedIn) {
+          print('User is logged in as ${state.role}');
+          return GetFirstPageLogic().getLoggedInPage(state.role!);
+        } else {
+          print('User is not logged in');
+          return const HomeScreen();
+        }
+      },
     );
   }
 }

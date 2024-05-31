@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TechnicianApplicationSuccess extends StatelessWidget {
   const TechnicianApplicationSuccess({super.key});
@@ -15,7 +16,9 @@ class TechnicianApplicationSuccess extends StatelessWidget {
               SizedBox(height: 15,),
               Text("Your application is sent successfully.", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, )),
               SizedBox(height: 15,),
-              Text("You will be contacted via the provided email.")
+              Text("You will be contacted via the provided email."),
+              SizedBox(height: 15,),
+              ElevatedButton(onPressed: () {context.go("/");}, child: const Text("Go back to home"))
             ],
           ),
         
