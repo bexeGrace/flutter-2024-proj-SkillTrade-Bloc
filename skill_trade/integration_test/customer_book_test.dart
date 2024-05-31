@@ -12,11 +12,14 @@ import 'package:skill_trade/infrastructure/data_sources/remote_data_source.dart'
 import 'package:skill_trade/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
+import 'package:skill_trade/presentation/screens/bookings.dart';
 import 'package:skill_trade/presentation/screens/customer.dart';
+import 'package:skill_trade/presentation/screens/find_technicians.dart';
 import 'package:skill_trade/presentation/screens/home_page.dart';
 import 'package:skill_trade/presentation/screens/login_page.dart';
 import 'package:skill_trade/presentation/screens/signup_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:skill_trade/presentation/widgets/technician_card.dart';
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   await SecureStorage.instance.init();
@@ -29,8 +32,8 @@ void main() async {
   final customerRepository = CustomerRepositoryImpl(secureStorage: SecureStorage.instance, remoteDataSource: customerRemoteDataSource,);
 
 
-  group('Customer Login', () {
-    testWidgets('Login flow', (WidgetTester tester) async {
+  group('book a technician', () {
+    testWidgets('Login', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp(authRepository: authRepository, customerRepository: customerRepository, bookingsRepository: bookingsRepository));
       await tester.pumpAndSettle(); 
 
@@ -60,6 +63,36 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(await find.byType(CustomerPage), findsOneWidget);
+
+      final findTechnicianButtonFinder = find.text('Get Technician');
+      await tester.tap(findTechnicianButtonFinder);
+      await tester.pumpAndSettle();
+
+      // Verify that FindTechnician page is displayed
+      expect(find.byType(FindTechnician), findsOneWidget);
+
+      // Simulate selecting a technician
+      final technicianCardFinder = find.byType(TechnicianCard).first;
+      await tester.tap(technicianCardFinder);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MyBookings), findsOneWidget);
+
+      await tester.tap(find.text('Select Date'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('OK'));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(find.bySemanticsLabel('Service Needed'), 'Fix AC');
+      await tester.enterText(find.bySemanticsLabel('Service Location'), '123 Main St');
+      await tester.enterText(find.bySemanticsLabel('Problem Description'), 'Air conditioner not cooling properly.');
+
+      final bookButtonFinder = find.text('Book');
+      await tester.ensureVisible(bookButtonFinder);
+      await tester.pumpAndSettle();
+      await tester.tap(bookButtonFinder);
+      await tester.pumpAndSettle();
     });
+
   });
 }
