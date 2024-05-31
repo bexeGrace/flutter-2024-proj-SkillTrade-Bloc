@@ -117,7 +117,6 @@ class MyDrawer extends StatelessWidget {
                           ),
                           onPressed: () async {
                             await deleteAccount(context);
-                            // await unlog(context);
                             GoRouter.of(context).go('/');
                           }),
                     );
@@ -140,10 +139,10 @@ class MyDrawer extends StatelessWidget {
   }
 
   Future<void> unlog(context) async {
-    BlocProvider.of<AuthBloc>(context).add(UnlogEvent());
+    BlocProvider.of<AuthBloc>(context).add(const UnlogEvent());
   }
 
   Future<void> deleteAccount(context) async {
-    BlocProvider.of<AuthBloc>(context).add(DeleteAccount());
+    BlocProvider.of<AuthBloc>(context).add(const DeleteAccount());
   }
 }

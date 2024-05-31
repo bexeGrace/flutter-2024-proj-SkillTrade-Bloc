@@ -9,7 +9,7 @@ class InfoLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       Text(
-        this.label + ":",
+        "$label:",
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 15,
@@ -19,7 +19,7 @@ class InfoLabel extends StatelessWidget {
         width: 5,
       ),
       Text(
-        this.data,
+        data,
         style: const TextStyle(fontSize: 15),
       ),
     ]);

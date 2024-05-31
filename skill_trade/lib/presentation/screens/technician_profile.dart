@@ -105,11 +105,13 @@ class _TechnicianProfileState extends State<TechnicianProfile> {
                             const SizedBox(height: 16),
                             Center(
                               child: ElevatedButton(
-                                onPressed: () => updateProfile(state.technician),
-                                child: const Text("Update Profile", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
+                                onPressed: () => updateProfile(state.technician),                              
                                 style: TextButton.styleFrom(
                                   backgroundColor: Theme.of(context).colorScheme.primary,
                                 ),
+                                child: const Text(
+                                  "Update Profile",
+                                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
                               ),
                             ),
                             const SizedBox(height: 30),

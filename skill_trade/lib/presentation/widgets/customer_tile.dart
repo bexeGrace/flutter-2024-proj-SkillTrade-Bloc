@@ -15,7 +15,7 @@ class CustomerTile extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10.0),
             child: Image.asset("assets/customer.png"),
           ),
-          title: Text(customer.fullName, style: TextStyle(fontWeight: FontWeight.w500),),
+          title: Text(customer.fullName, style: const TextStyle(fontWeight: FontWeight.w500),),
           subtitle: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -11,7 +11,6 @@ import 'package:skill_trade/presentation/states/review_state.dart';
 
 class AdminTechnician extends StatelessWidget {
   final int technicianId;
-
   const AdminTechnician({super.key, required this.technicianId});
 
   @override
@@ -31,7 +30,7 @@ class AdminTechnician extends StatelessWidget {
                   return Column(
                     children: [
                       TechnicianSmallProfile(technician: state.technician,),
-                      SizedBox(height: 30,),
+                      const SizedBox(height: 30,),
                       state.technician.status == "suspended" || state.technician.status == "accepted" ?
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +130,7 @@ class AdminTechnician extends StatelessWidget {
             child: BlocBuilder<ReviewsBloc, ReviewsState>(
               builder: (context, state) {
                 if (state is ReviewsLoaded) {
-                  return state.reviews.isNotEmpty ? Container(
+                  return state.reviews.isNotEmpty ? SizedBox(
                     height: state.reviews.length * 110,
                     child: ListView.builder(
                       itemCount: state.reviews.length,
