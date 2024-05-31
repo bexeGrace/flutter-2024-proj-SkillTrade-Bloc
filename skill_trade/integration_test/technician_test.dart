@@ -16,6 +16,7 @@ import 'package:skill_trade/presentation/screens/signup_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:skill_trade/presentation/screens/technician.dart';
 import 'package:skill_trade/presentation/widgets/technician_application.dart';
+
 // class MockAuthBloc extends Mock implements AuthBloc {}
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -23,15 +24,24 @@ void main() async {
   final httpClient = http.Client();
   final remoteDataSource = RemoteDataSource(httpClient);
   final bookingRemoteDataSource = BookingsRemoteDataSourceImpl(httpClient);
-  final customerRemoteDataSource = CustomerRemoteDataSourceImpl(client: httpClient);
-  final authRepository = AuthRepositoryImpl(remoteDataSource, SecureStorage.instance);
-  final bookingsRepository = BookingsRepositoryImpl(bookingRemoteDataSource, SecureStorage.instance);
-  final customerRepository = CustomerRepositoryImpl(secureStorage: SecureStorage.instance, remoteDataSource: customerRemoteDataSource,);
+  final customerRemoteDataSource =
+      CustomerRemoteDataSourceImpl(client: httpClient);
+  final authRepository =
+      AuthRepositoryImpl(remoteDataSource, SecureStorage.instance);
+  final bookingsRepository =
+      BookingsRepositoryImpl(bookingRemoteDataSource, SecureStorage.instance);
+  final customerRepository = CustomerRepositoryImpl(
+    secureStorage: SecureStorage.instance,
+    remoteDataSource: customerRemoteDataSource,
+  );
 
   group('Technician Signup', () {
     testWidgets('Technician Signup', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp(authRepository: authRepository, customerRepository: customerRepository, bookingsRepository: bookingsRepository));
-      await tester.pumpAndSettle(); 
+      await tester.pumpWidget(MyApp(
+          authRepository: authRepository,
+          customerRepository: customerRepository,
+          bookingsRepository: bookingsRepository));
+      await tester.pumpAndSettle();
 
       // Wait for the app to settle
       await tester.pumpAndSettle();
@@ -50,11 +60,11 @@ void main() async {
       // Verify that SignupPage is displayed
       expect(find.byType(SignupPage), findsOneWidget);
 
-
       final technicianAvatarFinder = find.byWidgetPredicate(
         (Widget widget) =>
             widget is CircleAvatar &&
-            (widget.backgroundImage as AssetImage).assetName == 'assets/technician.jpg',
+            (widget.backgroundImage as AssetImage).assetName ==
+                'assets/technician.jpg',
       );
       await tester.tap(technicianAvatarFinder);
       await tester.pumpAndSettle();
@@ -62,7 +72,8 @@ void main() async {
       // Enter full name
       await tester.enterText(find.bySemanticsLabel('Fullname'), 'Jane Smith');
       // Enter email
-      await tester.enterText(find.bySemanticsLabel('email'), 'jane.smith@example.com');
+      await tester.enterText(
+          find.bySemanticsLabel('email'), 'jane.smith@example.com');
       // Enter phone
       await tester.enterText(find.bySemanticsLabel('phone'), '0987654321');
       // Enter password
@@ -70,11 +81,14 @@ void main() async {
       // Enter experience
       await tester.enterText(find.bySemanticsLabel('Experience'), '5 years');
       // Enter education level
-      await tester.enterText(find.bySemanticsLabel('Education Level'), 'Bachelor\'s Degree');
+      await tester.enterText(
+          find.bySemanticsLabel('Education Level'), 'Bachelor\'s Degree');
       // Enter location
-      await tester.enterText(find.bySemanticsLabel('Available location'), 'New York');
+      await tester.enterText(
+          find.bySemanticsLabel('Available location'), 'New York');
       // Enter bio
-      await tester.enterText(find.bySemanticsLabel('Additional Bio'), 'Experienced technician with expertise in HVAC.');
+      await tester.enterText(find.bySemanticsLabel('Additional Bio'),
+          'Experienced technician with expertise in HVAC.');
       // Select skills
       final skill1 = find.text('Electricity');
       final skill2 = find.text('Plumbing');
@@ -106,11 +120,13 @@ void main() async {
       expect(await find.byType(TechnicianApplication), findsOneWidget);
     });
   });
-group('Technician Signup and Login Tests', () {
-    
+  group('Technician Signup and Login Tests', () {
     testWidgets('Technician Login', (WidgetTester tester) async {
-      await tester.pumpWidget(MyApp(authRepository: authRepository, customerRepository: customerRepository, bookingsRepository: bookingsRepository));
-      await tester.pumpAndSettle(); 
+      await tester.pumpWidget(MyApp(
+          authRepository: authRepository,
+          customerRepository: customerRepository,
+          bookingsRepository: bookingsRepository));
+      await tester.pumpAndSettle();
 
       // Wait for the app to settle
       await tester.pumpAndSettle();
@@ -130,7 +146,8 @@ group('Technician Signup and Login Tests', () {
       expect(find.byType(LoginPage), findsOneWidget);
 
       // Enter email
-      await tester.enterText(find.bySemanticsLabel('email'), 'jane.smith@example.com');
+      await tester.enterText(
+          find.bySemanticsLabel('email'), 'jane.smith@example.com');
       // Enter password
       await tester.enterText(find.bySemanticsLabel('password'), 'password123');
 
@@ -141,8 +158,6 @@ group('Technician Signup and Login Tests', () {
       final technicianRadioFinder = find.text('Technician').hitTestable();
       await tester.tap(technicianRadioFinder);
       await tester.pumpAndSettle();
-
-
 
       // Scroll the login button into view
       final loginButtonFinderForm = find.text('login');
