@@ -26,7 +26,7 @@ void main() {
     expect(find.text(buttonText), findsOneWidget);
 
     // Verify that the button is rendered with the correct width
-    final containerFinder = find.byType(Container);
+    final containerFinder = find.byType(SizedBox);
     final containerRenderBox = tester.renderObject<RenderBox>(containerFinder);
     expect(containerRenderBox.size.width, 150.0);
 

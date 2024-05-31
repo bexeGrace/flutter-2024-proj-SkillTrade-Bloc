@@ -24,19 +24,6 @@ void main() {
   });
 
   group('TechniciansBloc', () {
-    final technician = Technician(
-      id: 1,
-      skills: 'some',
-      experience: 'required',
-      education_level: 'level',
-      available_location: 'location',
-      additional_bio: 'why',
-      phone: '0987654',
-      name: 'Techie Smith',
-      email: 'techiesmith@example.com',
-      status: 'active',
-    );
-
     final technicians = [
       Technician(
       id: 1,

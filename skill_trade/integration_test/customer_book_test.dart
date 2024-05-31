@@ -10,11 +10,9 @@ import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl
 import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
 import 'package:skill_trade/presentation/screens/bookings.dart';
 import 'package:skill_trade/presentation/screens/customer.dart';
-import 'package:skill_trade/presentation/screens/find_technicians.dart';
 import 'package:skill_trade/presentation/screens/home_page.dart';
 import 'package:skill_trade/presentation/screens/login_page.dart';
 import 'package:http/http.dart' as http;
-import 'package:skill_trade/presentation/widgets/technician_card.dart';
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   await SecureStorage.instance.init();
@@ -56,24 +54,21 @@ void main() async {
       await tester.ensureVisible(loginButtonFinderForm);
       await tester.tap(loginButtonFinderForm);
       await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
       expect(find.byType(CustomerPage), findsOneWidget);
 
-      final findTechnicianButtonFinder = find.text('Get Technician');
+      final findTechnicianButtonFinder = find.text('Get Technician').first;
       await tester.tap(findTechnicianButtonFinder);
       await tester.pumpAndSettle();
 
-      // Verify that FindTechnician page is displayed
-      expect(find.byType(FindTechnician), findsOneWidget);
-
-      // Simulate selecting a technician
-      final technicianCardFinder = find.byType(TechnicianCard).first;
-      await tester.tap(technicianCardFinder);
-      await tester.pumpAndSettle();
 
       expect(find.byType(MyBookings), findsOneWidget);
 
       await tester.tap(find.text('Select Date'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('21'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('OK'));
       await tester.pumpAndSettle();

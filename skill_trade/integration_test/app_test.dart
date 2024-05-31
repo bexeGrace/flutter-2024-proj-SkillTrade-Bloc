@@ -9,6 +9,7 @@ import 'package:skill_trade/infrastructure/data_sources/remote_data_source.dart'
 import 'package:skill_trade/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
+import 'package:skill_trade/presentation/screens/bookings.dart';
 import 'package:skill_trade/presentation/screens/customer.dart';
 import 'package:skill_trade/presentation/screens/home_page.dart';
 import 'package:skill_trade/presentation/screens/signup_page.dart';
@@ -61,23 +62,37 @@ void main() async {
       await tester.tap(signupButtonFinderForm);
       await tester.pumpAndSettle();
 
+      await tester.pumpAndSettle();
+
+      await tester.pumpAndSettle();
+
       // Verify navigation to CustomerPage
-      expect(await find.byType(CustomerPage), findsOneWidget);
+      expect(find.byType(CustomerPage), findsOneWidget);
 
-      final openDrawerIcon = find.byIcon(Icons.menu); 
-      await tester.ensureVisible(openDrawerIcon);
-
-      await tester.tap(openDrawerIcon);
+      
+      final findTechnicianButtonFinder = find.text('Get Technician').first;
+      await tester.tap(findTechnicianButtonFinder);
       await tester.pumpAndSettle();
 
-      // Tap the logout option
-      final logoutOptionFinder = find.text('Logout');
-      await tester.ensureVisible(logoutOptionFinder);
-      await tester.tap(logoutOptionFinder);
+
+      expect(find.byType(MyBookings), findsOneWidget);
+
+      await tester.tap(find.text('Select Date'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('21'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('OK'));
       await tester.pumpAndSettle();
 
-      // Verify that HomeScreen is displayed again after logout
-      expect(await find.byType(HomeScreen), findsOneWidget);
+      await tester.enterText(find.bySemanticsLabel('Service Needed'), 'Fix AC');
+      await tester.enterText(find.bySemanticsLabel('Service Location'), '123 Main St');
+      await tester.enterText(find.bySemanticsLabel('Problem Description'), 'Air conditioner not cooling properly.');
+
+      final bookButtonFinder = find.text('Book');
+      await tester.ensureVisible(bookButtonFinder);
+      await tester.pumpAndSettle();
+      await tester.tap(bookButtonFinder);
+      await tester.pumpAndSettle();
 
     });
   },);

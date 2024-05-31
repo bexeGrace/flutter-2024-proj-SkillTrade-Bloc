@@ -30,7 +30,7 @@ class TechniciansList extends StatelessWidget {
                   final List<Technician> technicians = state.technicians;
                   return ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
-                      return TechnicianTile(technician: technicians[index]);
+                      return TechnicianTile(technician: technicians[index], onRefresh: (){});
                     },
                   itemCount: technicians.length,
                   );

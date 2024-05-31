@@ -22,10 +22,10 @@ class SecureStorage {
   }
 
   Future<void> _initialize() async {
-    await write("endpoint", "192.168.141.75");
+    await write("endpoint", "192.168.56.1");
   }
 
   Future<void> init() async {
-    await write("endpoint", "192.168.141.75");
+    await write("endpoint", "192.168.56.1");
   }
 }

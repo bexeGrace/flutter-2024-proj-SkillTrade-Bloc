@@ -17,7 +17,11 @@ class AdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TechniciansBloc>(context).add(LoadPendingTechnicians());
+    void _loadTechnicians() {
+      BlocProvider.of<TechniciansBloc>(context).add(LoadPendingTechnicians());
+    }
+
+    _loadTechnicians();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +44,7 @@ class AdminPage extends StatelessWidget {
                 final List<Technician> technicians = state.technicians;
                 return technicians.isNotEmpty? ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    return TechnicianTile(technician: technicians[index]);
+                    return TechnicianTile(technician: technicians[index], onRefresh: _loadTechnicians);
                   },
                 itemCount: technicians.length,
                 ): const Center(child: Text("No pending applications"),);

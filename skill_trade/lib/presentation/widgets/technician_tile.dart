@@ -4,7 +4,8 @@ import 'package:skill_trade/domain/models/technician.dart';
 
 class TechnicianTile extends StatelessWidget {
   final Technician technician;
-  const TechnicianTile ({super.key, required this.technician});
+  final VoidCallback onRefresh;
+  const TechnicianTile ({super.key, required this.technician, required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,9 @@ class TechnicianTile extends StatelessWidget {
             ],
           ),
           trailing: TextButton(
-            onPressed: () {
-              context.push('/admintech', extra: technician.id);
+            onPressed: () async {
+              await context.push('/admintech', extra: technician.id);
+              onRefresh();
             }, 
           child: const Text("Review")),
         ),

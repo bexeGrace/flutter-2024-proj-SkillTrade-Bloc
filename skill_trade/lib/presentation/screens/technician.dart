@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skill_trade/application/blocs/review_bloc.dart';
 import 'package:skill_trade/infrastructure/data_sources/bookings_remote_data_source_impl.dart';
 import 'package:skill_trade/infrastructure/data_sources/customer_remote_data_source_impl.dart';
 import 'package:skill_trade/infrastructure/data_sources/individual_technician_remote_data_source.dart';
+import 'package:skill_trade/infrastructure/data_sources/review_remote_data_source.dart';
 import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/individual_technician_repository.dart';
+import 'package:skill_trade/infrastructure/repositories/review_repository.dart';
 import 'package:skill_trade/presentation/screens/technician_profile.dart';
 import 'package:skill_trade/presentation/themes.dart';
 import 'package:skill_trade/presentation/widgets/technician_booking_list.dart';
@@ -26,7 +29,14 @@ class TechnicianPageLogic {
   Widget getCurrentPage() {
     final List<Widget> pages = [
       TechnicianBookingList(),
-      const TechnicianProfile(),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<ReviewsBloc>(
+            create: (context) => ReviewsBloc(reviewRepository: ReviewRepository(remoteDataSource: ReviewRemoteDataSource())),
+          ),
+        ],
+        child: const TechnicianProfile(),
+      )
     ];
     return pages[selectedIndex];
   }

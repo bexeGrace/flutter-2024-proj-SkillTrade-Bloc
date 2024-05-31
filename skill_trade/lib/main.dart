@@ -169,6 +169,7 @@ final GoRouter _router = GoRouter(
 
 class GetFirstPageLogic {
   Widget getLoggedInPage(String role) {
+    print(role);
     switch (role) {
       case "customer":
         return const CustomerPage();
@@ -190,8 +191,10 @@ class GetFirstPage extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (BuildContext context, AuthState state) {
         if (state is LoggedIn) {
+          print({state.role!});
           return GetFirstPageLogic().getLoggedInPage(state.role!);
         } else {
+          print("not logged");
           return const HomeScreen();
         }
       },

@@ -51,7 +51,7 @@ void main() async {
       expect(find.text('SkillTrade Hub'), findsOneWidget);
 
       // Tap the signup button
-      final signupButtonFinder = find.text('signup');
+      final signupButtonFinder = find.text('Sign up');
       await tester.ensureVisible(signupButtonFinder);
       await tester.pumpAndSettle();
       await tester.tap(signupButtonFinder);
@@ -115,9 +115,10 @@ void main() async {
 
       // Wait for backend response and app to settle
       await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
       // Verify that TechnicianPage is displayed after signup
-      expect(await find.byType(TechnicianApplication), findsOneWidget);
+      expect(find.byType(TechnicianApplication), findsOneWidget);
     });
   });
   group('Technician Login Tests', () {

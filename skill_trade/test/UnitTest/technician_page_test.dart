@@ -1,5 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:skill_trade/presentation/screens/technician_profile.dart';
 import 'package:skill_trade/presentation/widgets/technician_booking_list.dart';
 import 'package:skill_trade/presentation/screens/technician.dart';
 
@@ -31,7 +31,7 @@ void main() {
 
       logic.navigateBottomBar(1);
       currentPage = logic.getCurrentPage();
-      expect(currentPage, isA<TechnicianProfile>());
+      expect(currentPage, isA<MultiBlocProvider>());
     });
   });
 }

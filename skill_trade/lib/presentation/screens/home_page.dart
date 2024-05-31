@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                           width: 15,
                         ),
                         MyButton(
-                            text: "signup",
+                            text: "Sign up",
                             onPressed: () {
                               context.push('/signup');
                             }),

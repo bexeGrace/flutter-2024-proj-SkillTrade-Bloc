@@ -161,6 +161,11 @@ class _MyBookingsState extends State<MyBookings> {
                             controller: serviceNeededController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
+                              labelText: "Service Needed",
+                              labelStyle: TextStyle(
+                                color: Colors.transparent
+                              ),
+                              floatingLabelBehavior: FloatingLabelBehavior.never
                             ),
                           ),
                         )
@@ -189,6 +194,11 @@ class _MyBookingsState extends State<MyBookings> {
                             controller: serviceLocationController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
+                              labelText: "Service Location",
+                              labelStyle: TextStyle(
+                                color: Colors.transparent
+                              ),
+                              floatingLabelBehavior: FloatingLabelBehavior.never
                             ),
                           ),
                         )
@@ -217,6 +227,11 @@ class _MyBookingsState extends State<MyBookings> {
                             controller: problemDescriptionController,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
+                              labelText: "Problem Description",
+                              labelStyle: TextStyle(
+                                color: Colors.transparent
+                              ),
+                              floatingLabelBehavior: FloatingLabelBehavior.never
                             ),
                           ),
                         )
