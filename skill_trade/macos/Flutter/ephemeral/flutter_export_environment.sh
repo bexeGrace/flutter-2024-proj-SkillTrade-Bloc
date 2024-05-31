@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=C:\Users\betse\Desktop\Academics\Flutter\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\betse\Desktop\Bloc\flutter-2024-proj-SkillTrade-Bloc\skill_trade"
+export "FLUTTER_APPLICATION_PATH=C:\Users\betse\Desktop\Academics\Flutter\Skill Trade Mobile\flutter-2024-proj-SkillTrade\skill_trade"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"
