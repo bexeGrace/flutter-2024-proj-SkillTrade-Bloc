@@ -120,7 +120,7 @@ void main() async {
       expect(await find.byType(TechnicianApplication), findsOneWidget);
     });
   });
-  group('Technician Signup and Login Tests', () {
+  group('Technician Login Tests', () {
     testWidgets('Technician Login', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp(
           authRepository: authRepository,
@@ -150,9 +150,6 @@ void main() async {
           find.bySemanticsLabel('email'), 'jane.smith@example.com');
       // Enter password
       await tester.enterText(find.bySemanticsLabel('password'), 'password123');
-
-      // Dismiss the keyboard
-      await tester.tapAt(Offset(0, 0));
       await tester.pumpAndSettle();
 
       final technicianRadioFinder = find.text('Technician').hitTestable();

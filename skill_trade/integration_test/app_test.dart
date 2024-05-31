@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:skill_trade/infrastructure/storage/storage.dart';
@@ -63,9 +64,25 @@ void main() async {
       await tester.pumpAndSettle();
 
       // Verify navigation to CustomerPage
-      expect(find.byType(CustomerPage), findsOneWidget);
+      expect(await find.byType(CustomerPage), findsOneWidget);
+
+      final openDrawerIcon = find.byIcon(Icons.menu); 
+      await tester.ensureVisible(openDrawerIcon);
+
+      await tester.tap(openDrawerIcon);
+      await tester.pumpAndSettle();
+
+      // Tap the logout option
+      final logoutOptionFinder = find.text('Logout');
+      await tester.ensureVisible(logoutOptionFinder);
+      await tester.tap(logoutOptionFinder);
+      await tester.pumpAndSettle();
+
+      // Verify that HomeScreen is displayed again after logout
+      expect(await find.byType(HomeScreen), findsOneWidget);
+
     });
-  }, skip: "skipping signup test for now");
+  },);
 
   group('Customer Login', () {
     testWidgets('Login flow', (WidgetTester tester) async {
