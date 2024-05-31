@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -78,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                           height: 15,
                         ),
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.,
                           children: [
                             Radio<String>(
                               value: 'customer',
@@ -90,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                             const Text('Customer'),
-                            // SizedBox(width: 15,),
                             Radio<String>(
                               value: 'technician',
                               groupValue: _selectedRole,
@@ -101,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                             const Text('Technician'),
-                            // SizedBox(width: 15,),
                             Radio<String>(
                               value: 'admin',
                               groupValue: _selectedRole,
