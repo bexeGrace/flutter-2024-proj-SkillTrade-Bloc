@@ -15,6 +15,5 @@ class AdminCustomer extends StatelessWidget {
       ),
       body: customerProfile(customer: customer),
       );
-    // );
   }
 }
