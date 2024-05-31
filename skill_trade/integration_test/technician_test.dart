@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:skill_trade/infrastructure/storage/storage.dart';
 import 'package:skill_trade/main.dart';
@@ -11,7 +10,6 @@ import 'package:skill_trade/infrastructure/data_sources/remote_data_source.dart'
 import 'package:skill_trade/infrastructure/repositories/auth_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/bookings_repository_impl.dart';
 import 'package:skill_trade/infrastructure/repositories/customer_repository_impl.dart';
-import 'package:skill_trade/presentation/screens/customer.dart';
 import 'package:skill_trade/presentation/screens/home_page.dart';
 import 'package:skill_trade/presentation/screens/login_page.dart';
 import 'package:skill_trade/presentation/screens/signup_page.dart';
