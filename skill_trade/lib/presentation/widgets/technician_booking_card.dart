@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skill_trade/domain/models/booking.dart';
@@ -20,7 +19,7 @@ class TechnicianBookingCard extends StatelessWidget {
     return Card(
         elevation: 4.0,
         color: Theme.of(context).colorScheme.secondary,
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -48,7 +47,7 @@ class TechnicianBookingCard extends StatelessWidget {
               const SizedBox(height: 8),
               InfoLabel(label: 'Status', data: booking.status,),
               const SizedBox(height: 5),
-              Divider(thickness: 2,),
+              const Divider(thickness: 2,),
               const SizedBox(height: 5),
               InfoLabel(label: 'Name', data: customer.fullName,),
               const SizedBox(height: 8),
@@ -61,30 +60,30 @@ class TechnicianBookingCard extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      BlocProvider.of<BookingsBloc>(context).add(UpdateBooking(updates: {"status": "accepted"}, bookingId: booking.id, whoUpdated: "technician", updaterId: technicianId));
+                      BlocProvider.of<BookingsBloc>(context).add(UpdateBooking(updates: const {"status": "accepted"}, bookingId: booking.id, whoUpdated: "technician", updaterId: technicianId));
                     },
-                    child: const Text('Accept', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                     ),
+                    child: const Text('Accept', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      BlocProvider.of<BookingsBloc>(context).add(UpdateBooking(updates: {"status": "declined"}, bookingId: booking.id, whoUpdated: "technician", updaterId: technicianId));
+                      BlocProvider.of<BookingsBloc>(context).add(UpdateBooking(updates: const {"status": "declined"}, bookingId: booking.id, whoUpdated: "technician", updaterId: technicianId));
                     },
-                    child: const Text('Decline', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                     ),
+                    child: const Text('Decline', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      BlocProvider.of<BookingsBloc>(context).add(UpdateBooking(updates: {"status": "serviced"}, bookingId: booking.id, whoUpdated: "technician", updaterId: technicianId));
+                      BlocProvider.of<BookingsBloc>(context).add(UpdateBooking(updates: const {"status": "serviced"}, bookingId: booking.id, whoUpdated: "technician", updaterId: technicianId));
                     },
-                    child: const Text('Serviced', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                     ),
+                    child: const Text('Serviced', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),),
                   ),
                 ],
               ),

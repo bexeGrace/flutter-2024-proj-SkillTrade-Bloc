@@ -13,13 +13,13 @@ class TechnicianApplication extends StatelessWidget {
         children: [
           Card(
             color: Colors.purple.shade100,
-            margin: EdgeInsets.all(18) ,
+            margin: const EdgeInsets.all(18) ,
             shadowColor: Colors.black54,
             elevation: 15,
             child: Container(  
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child:     
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Your application is sent successfully. ",textAlign: TextAlign.center, style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),),

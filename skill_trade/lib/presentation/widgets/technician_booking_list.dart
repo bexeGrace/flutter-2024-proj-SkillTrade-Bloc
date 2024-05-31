@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skill_trade/domain/models/booking.dart';
@@ -37,7 +36,7 @@ class TechnicianBookingList extends StatelessWidget {
                     Container(
                       color: Theme.of(context).colorScheme.background,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       child: const Text(
                         "Booked To You...",
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
