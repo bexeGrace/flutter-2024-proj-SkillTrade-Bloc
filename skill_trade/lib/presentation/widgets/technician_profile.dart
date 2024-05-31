@@ -27,7 +27,7 @@ class TechnicianSmallProfile extends StatelessWidget {
         Text(
           technician.name,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -38,31 +38,31 @@ class TechnicianSmallProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InfoLabel(label: "Email", data: technician.email),
-               SizedBox(
+               const SizedBox(
                 height: 3,
               ),
               InfoLabel(label: "Phone", data: technician.phone),
-               SizedBox(
+               const SizedBox(
                 height: 3,
               ),
               InfoLabel(label: "Skills", data: technician.skills),
-               SizedBox(
+               const SizedBox(
                 height: 3,
               ),
               InfoLabel(
                   label: "Experience",
                   data: technician.experience),
-               SizedBox(
+               const SizedBox(
                 height: 3,
               ),
               InfoLabel(
                   label: "Education Level",
                   data: technician.education_level),
-               SizedBox(
+               const SizedBox(
                 height: 3,
               ),
               InfoLabel(label: "Available Location", data: technician.available_location),
-               SizedBox(
+               const SizedBox(
                 height: 3,
               ),
               InfoLabel(label: "Additional Bio", data: technician.additional_bio),

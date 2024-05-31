@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ServicesCard extends StatelessWidget {
   final String imageUrl, title, description;
@@ -13,12 +12,11 @@ class ServicesCard extends StatelessWidget {
     Widget build(BuildContext context) {
       return Card(
         shadowColor: Colors.black38,
-        margin: EdgeInsets.only(left: 10, right: 10),
+        margin: const EdgeInsets.only(left: 10, right: 10),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            
             children: [
                 Text(
                   title,
@@ -27,7 +25,7 @@ class ServicesCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 Image.asset(
                     imageUrl,
                     width: 300,
@@ -36,9 +34,9 @@ class ServicesCard extends StatelessWidget {
                   ), 
                 
               Container( 
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   width: 300,                
-                  child: Text(description, style: TextStyle(fontSize: 20),)
+                  child: Text(description, style: const TextStyle(fontSize: 20),)
                 ),
             ],
           ),

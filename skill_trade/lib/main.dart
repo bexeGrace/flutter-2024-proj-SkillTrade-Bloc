@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
   final BookingsRepositoryImpl bookingsRepository;
   final CustomerRepositoryImpl customerRepository;
 
-  MyApp({required this.authRepository, required this.bookingsRepository, required this.customerRepository});
+  const MyApp({super.key, required this.authRepository, required this.bookingsRepository, required this.customerRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -123,26 +123,26 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/customer',
-      builder: (context, state) => CustomerPage(),
+      builder: (context, state) => const CustomerPage(),
     ),
     GoRoute(
       path: '/technician',
-      builder: (context, state) => TechnicianPage(),
+      builder: (context, state) => const TechnicianPage(),
     ),
     GoRoute(
       path: '/admin',
-      builder: (context, state) => AdminSite(),
+      builder: (context, state) => const AdminSite(),
     ),
     GoRoute(
       path: '/apply',
-      builder: (context, state) => TechnicianApplicationSuccess(),
+      builder: (context, state) => const TechnicianApplicationSuccess(),
     ),
     GoRoute(
         path: '/myBookings',
         builder: (context, state) {
           final technician = state.extra as Technician;
           final bookingsRepository = (context as Element).findAncestorWidgetOfExactType<MyApp>()?.bookingsRepository;
-          final customerRepository = (context as Element).findAncestorWidgetOfExactType<MyApp>()?.customerRepository;
+          final customerRepository = (context).findAncestorWidgetOfExactType<MyApp>()?.customerRepository;
 
           if (bookingsRepository != null && customerRepository != null) {
             return MultiBlocProvider(
@@ -183,17 +183,15 @@ class GetFirstPageLogic {
 }
 
 class GetFirstPage extends StatelessWidget {
-  const GetFirstPage({Key? key}) : super(key: key);
+  const GetFirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (BuildContext context, AuthState state) {
         if (state is LoggedIn) {
-          print('User is logged in as ${state.role}');
           return GetFirstPageLogic().getLoggedInPage(state.role!);
         } else {
-          print('User is not logged in');
           return const HomeScreen();
         }
       },

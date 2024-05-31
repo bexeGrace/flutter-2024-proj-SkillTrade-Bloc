@@ -37,7 +37,7 @@ class AdminTechnician extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: {"status": "suspended"}));
+                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: const {"status": "suspended"}));
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
@@ -53,7 +53,7 @@ class AdminTechnician extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: {"status": "accepted"}));
+                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: const {"status": "accepted"}));
                             },
                             style: ButtonStyle(
                               backgroundColor:
@@ -72,7 +72,7 @@ class AdminTechnician extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: {"status": "accepted"}));
+                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: const {"status": "accepted"}));
                             },
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
@@ -88,7 +88,7 @@ class AdminTechnician extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: {"status": "declined"}));
+                              BlocProvider.of<IndividualTechnicianBloc>(context).add(UpdateTechnicianProfile(technicianId: state.technician.id, updates: const {"status": "declined"}));
                             },
                             style: ButtonStyle(
                               backgroundColor:
