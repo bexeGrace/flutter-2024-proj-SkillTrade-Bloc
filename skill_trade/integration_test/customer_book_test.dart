@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -28,8 +30,8 @@ void main() async {
   final customerRepository = CustomerRepositoryImpl(secureStorage: SecureStorage.instance, remoteDataSource: customerRemoteDataSource,);
 
 
-  group('Customer Signup', () {
-    testWidgets('Signup flow', (WidgetTester tester) async {
+  group('Customer Login', () {
+    testWidgets('Login flow', (WidgetTester tester) async {
       await tester.pumpWidget(MyApp(authRepository: authRepository, customerRepository: customerRepository, bookingsRepository: bookingsRepository));
       await tester.pumpAndSettle(); // Wait for the app to settle
 
@@ -37,19 +39,15 @@ void main() async {
       expect(find.byType(HomeScreen), findsOneWidget);
       expect(find.text('SkillTrade Hub'), findsOneWidget);
 
-      // Navigate to the signup page
-      final signupButtonFinder = find.text('Sign up');
-      await tester.ensureVisible(signupButtonFinder);
-      await tester.tap(signupButtonFinder);
+      // Navigate to the login page
+      final loginButtonFinder = find.text('login');
+      await tester.ensureVisible(loginButtonFinder);
+      await tester.tap(loginButtonFinder);
       await tester.pumpAndSettle();
-      expect(find.byType(SignupPage), findsOneWidget);
+      expect(find.byType(LoginPage), findsOneWidget);
 
-      // Enter full name
-      await tester.enterText(find.bySemanticsLabel('Fullname'), 'John Doe');
       // Enter email
       await tester.enterText(find.bySemanticsLabel('email'), 'john.doe@example.com');
-      // Enter phone
-      await tester.enterText(find.bySemanticsLabel('phone'), '1234567890');
       // Enter password
       await tester.enterText(find.bySemanticsLabel('password'), 'password123');
 
@@ -57,34 +55,19 @@ void main() async {
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
-      // Tap the signup button
-      final signupButtonFinderForm = find.text('signup');
-      await tester.ensureVisible(signupButtonFinderForm);
-      await tester.tap(signupButtonFinderForm);
+      // Select customer role
+      final customerRadioFinder = find.text('Customer').hitTestable();
+      await tester.tap(customerRadioFinder);
+      await tester.pumpAndSettle();
+
+      // Tap the login button
+      final loginButtonFinderForm = find.text('login');
+      await tester.ensureVisible(loginButtonFinderForm);
+      await tester.tap(loginButtonFinderForm);
       await tester.pumpAndSettle();
 
       // Verify navigation to CustomerPage
       expect(await find.byType(CustomerPage), findsOneWidget);
-
-      final openDrawerIcon = find.byIcon(Icons.menu); 
-      await tester.ensureVisible(openDrawerIcon);
-
-      await tester.tap(openDrawerIcon);
-      await tester.pumpAndSettle();
-
-      // Tap the logout option
-      final logoutOptionFinder = find.text('Logout');
-      await tester.ensureVisible(logoutOptionFinder);
-      await tester.tap(logoutOptionFinder);
-      await tester.pumpAndSettle();
-
-      // Verify that HomeScreen is displayed again after logout
-      expect(await find.byType(HomeScreen), findsOneWidget);
-
     });
-  },);
-
+  });
 }
-
-
-
